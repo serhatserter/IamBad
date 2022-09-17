@@ -23,4 +23,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public Transform Player;
+
+    public int KnightCreateCount;
 }

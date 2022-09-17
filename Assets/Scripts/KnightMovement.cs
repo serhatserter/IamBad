@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class KnightMovement : MonoBehaviour
 {
+    public ParticleSystem HitParticle;
+
     CharacterController characterController;
+    float Speed;
+    bool isStart;
+    Animator animator;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
+
+        Speed = Random.Range(0.002f, 0.010f);
         characterController = GetComponent<CharacterController>();
+
+        Invoke("StartMovement", 0.2f);
     }
 
+    void StartMovement()
+    {
+        isStart = true;
+    }
 
     void Update()
     {
-        Vector3 dir = (GameManager.Instance.Player.position - transform.position).normalized;
-        characterController.Move(dir * 0.01f);
+        if (isStart)
+        {
+            Vector3 dir = (GameManager.Instance.Player.position - transform.position).normalized;
+            characterController.Move(dir * Speed);
 
-        SetLookDir();
+            SetLookDir();
+
+        }
     }
 
     void SetLookDir()
@@ -43,5 +58,35 @@ public class KnightMovement : MonoBehaviour
                 transform.localScale = temp;
             }
         }
+    }
+
+    public void Death()
+    {
+        characterController.enabled = false;
+        isStart = false;
+        animator.enabled = false;
+
+        HitParticle.Play();
+
+        for (int i = 0; i < transform.childCount-1; i++)
+        {
+            Rigidbody rb = transform.GetChild(i).GetComponent<Rigidbody>();
+
+            rb.isKinematic = false;
+
+            rb.AddForce(Vector3.up * 150f);
+            rb.AddExplosionForce(25f, (transform.position + Vector3.up), 3f);
+
+            StartCoroutine(DeathDestroy());
+        }
+
+
+    }
+
+    IEnumerator DeathDestroy()
+    {
+        yield return new WaitForSeconds(5f);
+
+        Destroy(gameObject);
     }
 }

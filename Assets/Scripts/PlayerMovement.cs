@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Vector3 newPos = Vector3.Lerp(playerParent.position, playerParent.position + PlayerMoveDir(), Time.deltaTime * 3f);
 
-        playerController.Move(PlayerMoveDir() * 0.02f);
+        playerController.Move(PlayerMoveDir() * 0.015f);
     }
 
     Vector3 PlayerMoveDir()
