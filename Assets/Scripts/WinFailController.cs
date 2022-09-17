@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class WinFailController : MonoBehaviour
 {
     public GameObject FailPanel;
     public GameObject WinPanel;
     public List<ParticleSystem> HitParticles;
-
+    public Image StartPanel;
     // Start is called before the first frame update
     void Start()
     {
-
+        StartPanel.DOFade(0, 1f);
     }
 
     bool isEnd;

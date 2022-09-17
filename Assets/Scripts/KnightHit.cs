@@ -7,7 +7,6 @@ public class KnightHit : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log(other.tag);
 
         if (other.tag == "Knight")
         {
