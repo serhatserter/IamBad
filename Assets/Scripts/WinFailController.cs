@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinFailController : MonoBehaviour
 {
+    public GameObject FailPanel;
+    public GameObject WinPanel;
     public List<ParticleSystem> HitParticles;
 
     // Start is called before the first frame update
@@ -23,6 +26,7 @@ public class WinFailController : MonoBehaviour
                 isEnd = true;
                 CloseParticles();
                 GameManager.Instance.Fail?.Invoke();
+                FailPanel.SetActive(true);
             }
 
             if (GameManager.Instance.BarCount > 0.98f)
@@ -30,6 +34,7 @@ public class WinFailController : MonoBehaviour
                 isEnd = true;
                 CloseParticles();
                 GameManager.Instance.Win?.Invoke();
+                WinPanel.SetActive(true);
             }
 
         }
@@ -41,5 +46,10 @@ public class WinFailController : MonoBehaviour
         {
             HitParticles[i].Stop();
         }
+    }
+
+    public void RetryButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
