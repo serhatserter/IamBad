@@ -5,20 +5,38 @@ using UnityEngine;
 public class KnightMovement : MonoBehaviour
 {
     public ParticleSystem HitParticle;
+    public ParticleSystem CollectParticle;
 
     CharacterController characterController;
     float Speed;
     bool isStart;
+    bool isDeath;
     Animator animator;
 
     void Start()
     {
+        GameManager.Instance.Win += OnGameEnd;
+        GameManager.Instance.Fail += OnGameEnd;
+
+
         animator = GetComponent<Animator>();
 
         Speed = Random.Range(0.002f, 0.010f);
         characterController = GetComponent<CharacterController>();
 
         Invoke("StartMovement", 0.2f);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.Win -= OnGameEnd;
+        GameManager.Instance.Fail -= OnGameEnd;
+    }
+
+    private void OnGameEnd()
+    {
+        isStart = false;
+        animator.SetBool("IsWalk", false);
     }
 
     void StartMovement()
@@ -31,7 +49,7 @@ public class KnightMovement : MonoBehaviour
         if (isStart)
         {
             Vector3 dir = (GameManager.Instance.Player.position - transform.position).normalized;
-            characterController.Move(dir * Speed);
+            if (characterController != null) characterController.Move(dir * Speed);
 
             SetLookDir();
 
@@ -62,22 +80,34 @@ public class KnightMovement : MonoBehaviour
 
     public void Death()
     {
-        characterController.enabled = false;
-        isStart = false;
-        animator.enabled = false;
-
-        HitParticle.Play();
-
-        for (int i = 0; i < transform.childCount-1; i++)
+        if (!isDeath)
         {
-            Rigidbody rb = transform.GetChild(i).GetComponent<Rigidbody>();
+            isDeath = true;
 
-            rb.isKinematic = false;
+            GameManager.Instance.BarCount -= 0.02f;
 
-            rb.AddForce(Vector3.up * 150f);
-            rb.AddExplosionForce(25f, (transform.position + Vector3.up), 3f);
+            GetComponent<Collider>().enabled = false;
 
-            StartCoroutine(DeathDestroy());
+            Destroy(characterController);
+            //characterController.enabled = false;
+
+            isStart = false;
+            animator.enabled = false;
+
+            HitParticle.Play();
+
+            for (int i = 0; i < transform.childCount - 2; i++)
+            {
+                Rigidbody rb = transform.GetChild(i).GetComponent<Rigidbody>();
+
+                rb.isKinematic = false;
+
+                rb.AddForce(Vector3.up * 150f);
+                rb.AddExplosionForce(25f, (transform.position + Vector3.up), 3f);
+
+                StartCoroutine(DeathDestroy());
+            }
+
         }
 
 
@@ -88,5 +118,25 @@ public class KnightMovement : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         Destroy(gameObject);
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player" && !isDeath && isStart)
+        {
+            GameManager.Instance.Collect?.Invoke();
+
+            GameManager.Instance.BarCount += 0.02f;
+
+            characterController.enabled = false;
+            isStart = false;
+            animator.enabled = false;
+
+            CollectParticle.Play();
+            CollectParticle.transform.parent = null;
+
+            Destroy(gameObject);
+        }
     }
 }

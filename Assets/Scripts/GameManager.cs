@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,4 +26,16 @@ public class GameManager : MonoBehaviour
     public Transform Player;
 
     public int KnightCreateCount;
+
+    public float BarCount;
+
+
+    public Action Collect;
+    public Action Win;
+    public Action Fail;
+
+    private void Start()
+    {
+        BarCount = 0.5f;
+    }
 }
