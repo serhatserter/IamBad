@@ -15,6 +15,8 @@ public class StartSceneAnimations : MonoBehaviour
 
     public TMP_Text Name;
     public List<Image> Dialogs;
+
+    public GameObject ControllerUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,7 @@ public class StartSceneAnimations : MonoBehaviour
     public void OnStartPlay()
     {
         Button.gameObject.SetActive(false);
+        ControllerUI.SetActive(false);
 
         Name.DOFade(0, 0.5f).OnComplete(() =>
         {
