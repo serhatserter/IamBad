@@ -11,6 +11,10 @@ public class WinFailController : MonoBehaviour
     public GameObject WinPanel;
     public List<ParticleSystem> HitParticles;
     public Image StartPanel;
+
+    public AudioSource Music;
+    public AudioSource WinSound;
+    public AudioSource FailSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +29,9 @@ public class WinFailController : MonoBehaviour
         {
             if (GameManager.Instance.BarCount < 0.3f)
             {
+                Music.Stop();
+                FailSound.Play();
+
                 isEnd = true;
                 CloseParticles();
                 GameManager.Instance.Fail?.Invoke();
@@ -33,6 +40,9 @@ public class WinFailController : MonoBehaviour
 
             if (GameManager.Instance.BarCount > 0.98f)
             {
+                Music.Stop();
+                WinSound.Play();
+
                 isEnd = true;
                 CloseParticles();
                 GameManager.Instance.Win?.Invoke();

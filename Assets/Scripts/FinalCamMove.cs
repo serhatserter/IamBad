@@ -16,14 +16,14 @@ public class FinalCamMove : MonoBehaviour
 
 
         Vector3 target = new Vector3(0, 0.8f, 0.6f);
-        transform.DOMove(target, 7f).SetEase(Ease.InOutSine).SetDelay(2f).OnComplete(() =>
+        transform.DOMove(target, 10f).SetEase(Ease.InOutSine).SetDelay(5f).OnComplete(() =>
         {
             Panel.DOFade(1, 3).SetDelay(1f).OnComplete(() =>
             {
 
                 EndText.DOFade(1, 1).OnComplete(() =>
                 {
-                    Invoke("ChangeScene", 2f);
+                    Invoke("ChangeScene", 5f);
                 });
             });
 

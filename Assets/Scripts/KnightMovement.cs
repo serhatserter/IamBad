@@ -13,6 +13,10 @@ public class KnightMovement : MonoBehaviour
     bool isDeath;
     Animator animator;
 
+    public AudioSource HitSound;
+    public AudioSource DeathSound;
+
+
     void Start()
     {
         GameManager.Instance.Win += OnGameEnd;
@@ -21,7 +25,7 @@ public class KnightMovement : MonoBehaviour
 
         animator = GetComponent<Animator>();
 
-        Speed = Random.Range(0.002f, 0.010f);
+        Speed = Random.Range(2f, 3f);
         characterController = GetComponent<CharacterController>();
 
         Invoke("StartMovement", 0.2f);
@@ -49,7 +53,7 @@ public class KnightMovement : MonoBehaviour
         if (isStart)
         {
             Vector3 dir = (GameManager.Instance.Player.position - transform.position).normalized;
-            if (characterController != null) characterController.Move(dir * Speed);
+            if (characterController != null) characterController.Move(dir * Speed * Time.deltaTime);
 
             SetLookDir();
 
@@ -82,6 +86,8 @@ public class KnightMovement : MonoBehaviour
     {
         if (!isDeath)
         {
+            DeathSound.Play();
+
             isDeath = true;
 
             GameManager.Instance.BarCount -= 0.02f;
@@ -96,7 +102,9 @@ public class KnightMovement : MonoBehaviour
 
             HitParticle.Play();
 
-            for (int i = 0; i < transform.childCount - 2; i++)
+            HitSound.Play();
+
+            for (int i = 0; i < transform.childCount - 4; i++)
             {
                 Rigidbody rb = transform.GetChild(i).GetComponent<Rigidbody>();
 
@@ -125,6 +133,7 @@ public class KnightMovement : MonoBehaviour
     {
         if (collision.transform.tag == "Player" && !isDeath && isStart)
         {
+
             GameManager.Instance.Collect?.Invoke();
 
             GameManager.Instance.BarCount += 0.02f;
@@ -133,7 +142,9 @@ public class KnightMovement : MonoBehaviour
             isStart = false;
             animator.enabled = false;
 
+
             CollectParticle.Play();
+            CollectParticle.transform.GetChild(0).gameObject.SetActive(true);
             CollectParticle.transform.parent = null;
 
             Destroy(gameObject);

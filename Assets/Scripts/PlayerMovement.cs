@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public AudioSource WalkSound;
+    
     Transform playerParent;
     SpriteRenderer playerSprite;
     Animator playerAnimator;
@@ -49,10 +51,13 @@ public class PlayerMovement : MonoBehaviour
             || Input.GetKey(KeyCode.D))
         {
             playerAnimator.SetBool("IsWalk", true);
+
+            if (!WalkSound.isPlaying) WalkSound.Play();
         }
         else
         {
             playerAnimator.SetBool("IsWalk", false);
+            if (WalkSound.isPlaying) WalkSound.Pause();
 
         }
     }
@@ -62,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Vector3 newPos = Vector3.Lerp(playerParent.position, playerParent.position + PlayerMoveDir(), Time.deltaTime * 3f);
 
-        playerController.Move(PlayerMoveDir() * 0.015f);
+        playerController.Move(PlayerMoveDir() * Time.deltaTime * 6f);
     }
 
     Vector3 PlayerMoveDir()
