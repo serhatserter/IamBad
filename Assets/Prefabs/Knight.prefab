@@ -772,9 +772,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c6f886740080c42a9f9e148fd20fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 4689449514378216167}
   HitParticle: {fileID: 7461005168369928346}
   CollectParticle: {fileID: 5237399608305151179}
-  CollectSound: {fileID: 0}
   HitSound: {fileID: 5671877110781804266}
   DeathSound: {fileID: 3732644471495039730}
 --- !u!143 &119219737257070308
@@ -786,10 +786,10 @@ CharacterController:
   m_GameObject: {fileID: 918591112080393601}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 3
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -804,7 +804,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 918591112080393601}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.57
   m_Height: 1.6210971
   m_Direction: 1

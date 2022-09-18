@@ -41,7 +41,6 @@ public class KnightSpawner : MonoBehaviour
             {
                 GameObject newKnight = Instantiate(Knight);
                 newKnight.transform.position = transform.position;
-
                 GameManager.Instance.KnightCreateCount++;
 
             }

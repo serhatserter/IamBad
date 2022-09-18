@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KnightMovement : MonoBehaviour
 {
+    public CapsuleCollider Collider;
     public ParticleSystem HitParticle;
     public ParticleSystem CollectParticle;
 
@@ -28,7 +29,7 @@ public class KnightMovement : MonoBehaviour
         Speed = Random.Range(2f, 3f);
         characterController = GetComponent<CharacterController>();
 
-        Invoke("StartMovement", 0.2f);
+        Invoke("StartMovement", 0.5f);
     }
 
     private void OnDestroy()
@@ -46,6 +47,9 @@ public class KnightMovement : MonoBehaviour
     void StartMovement()
     {
         isStart = true;
+        characterController.enabled = true;
+        Collider.enabled = true;
+
     }
 
     void Update()
