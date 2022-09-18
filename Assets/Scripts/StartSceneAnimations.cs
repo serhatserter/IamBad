@@ -56,16 +56,15 @@ public class StartSceneAnimations : MonoBehaviour
                                             {
                                                 Dialogs[4].DOFade(0, 0.5f).SetDelay(5f).OnComplete(() =>
                                                 {
-                                                    Dialogs[5].DOFade(1, 0.5f).SetDelay(0.5f).OnComplete(() =>
-                                                    {
-                                                        Dialogs[5].DOFade(0, 0.5f).SetDelay(5f).OnComplete(() =>
-                                                        {
-                                                            OnDarkScreen();
+                                                    OnDarkScreen();
+                                                    //Dialogs[5].DOFade(1, 0.5f).SetDelay(0.5f).OnComplete(() =>
+                                                    //{
+                                                    //    Dialogs[5].DOFade(0, 0.5f).SetDelay(5f).OnComplete(() =>
+                                                    //    {
 
-                                                        });
+                                                    //    });
 
-                                                    });
-
+                                                    //});
                                                 });
 
                                             });
